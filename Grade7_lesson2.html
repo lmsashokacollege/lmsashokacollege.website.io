@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+  <meta charset="UTF-8">
+  <title>Lesson 1 — Operating System</title>
+  <style>
+    body {
+      margin: 0;
+      background: #222;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      height: 100vh;
+      color: white;
+      font-family: 'Poppins', Arial, sans-serif;
+    }
+
+    iframe {
+      border: none;
+      width: 90%;
+      height: 80vh;
+      box-shadow: 0 0 20px rgba(0,0,0,0.6);
+      border-radius: 10px;
+      background: white;
+    }
+
+    .back-btn {
+      margin-top: 20px;
+      padding: 12px 25px;
+      font-size: 16px;
+      font-weight: bold;
+      background: linear-gradient(135deg, #00c6ff, #0072ff);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      transition: 0.3s ease;
+    }
+
+    .back-btn:hover {
+      transform: scale(1.05);
+      background: linear-gradient(135deg, #0072ff, #00c6ff);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Embedded Lesson PDF -->
+  <iframe src="g7lesson2.pdf"></iframe>
+
+  <button class="back-btn" onclick="goBackToGrade(7)">
+  ⬅ Back to Grade 6 Lessons
+</button>
+
+<script>
+function goBackToGrade(grade) {
+  // Redirect to login.html and pass grade number in hash
+  window.location.href = `login.html#grade${grade}`;
+}
+</script>
+
+
+</body>
+</html>

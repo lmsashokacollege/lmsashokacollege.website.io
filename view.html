@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NextGen ICT — Teacher Portal</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: url('lms6.jpg') center/cover no-repeat;
+      color: white;
+      font-family: 'Poppins', sans-serif;
+      position: relative;
+      overflow: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.35);
+      backdrop-filter: blur(2px);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.12);
+      padding: 32px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.45);
+      backdrop-filter: blur(6px);
+      width: 90%;
+      max-width: 760px;
+      transition: all 0.4s ease;
+    }
+
+    h1 { font-size: 1.6rem; margin-bottom: 20px; color: #fff; text-shadow: 0 0 8px rgba(0,0,0,.4); }
+
+    .grade-buttons { display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-bottom:12px; }
+
+    .btn {
+      background-color: #3b82f6;
+      border: none;
+      padding: 12px 22px;
+      border-radius: 10px;
+      font-size: 0.98rem;
+      font-weight: 600;
+      color: white;
+      cursor: pointer;
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+    .btn:hover { transform: scale(1.04); box-shadow: 0 6px 18px rgba(59,130,246,0.22); }
+
+    .logout { margin-top: 16px; background-color: #ef4444; padding: 10px 18px; border-radius: 8px; }
+    .back-btn { margin-top: 18px; background-color: #10b981; padding: 10px 18px; border-radius: 8px; }
+
+    .hidden { display: none; }
+
+    .lesson-list { text-align: left; margin-top: 12px; max-height: 420px; overflow: auto; padding-right:10px; }
+    .lesson-item {
+      background: rgba(255,255,255,0.10);
+      margin: 8px 0;
+      padding: 12px 14px;
+      border-radius: 10px;
+      transition: transform .18s ease, background .18s ease;
+      display:flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      color: #fff;
+    }
+    .lesson-item:hover { transform: translateY(-2px); background: rgba(255,255,255,0.18); }
+
+    .lesson-title { font-weight:600; font-size: 1rem; flex:1; padding-right:12px; }
+
+    .small-btn {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.06);
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight:600;
+    }
+    .small-btn:hover { transform: translateY(-2px); background: rgba(255,255,255,0.14); }
+
+    /* PDF modal */
+    .pdf-modal {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      padding: 28px;
+      background: rgba(0,0,0,0.6);
+    }
+    .pdf-modal.open { display: flex; }
+
+    .pdf-card {
+      width: 92%;
+      max-width: 1000px;
+      height: 86vh;
+      background: rgba(255,255,255,0.03);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+      display: flex;
+      flex-direction: column;
+    }
+    .pdf-header {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding: 10px 14px;
+      background: rgba(0,0,0,0.25);
+    }
+    .pdf-header .title { font-weight:700; font-size:1.05rem; color:#fff; }
+    .pdf-actions { display:flex; gap:8px; align-items:center; }
+
+    .pdf-iframe {
+      flex:1;
+      width:100%;
+      border:0;
+    }
+
+    .note { font-size:0.9rem; color:#ffecec; margin-top:8px; font-style:italic; }
+
+    @media (max-width:600px){
+      .pdf-card { height: 88vh; }
+      .lesson-title { font-size:0.95rem; }
+      .btn { padding:10px 14px; }
+    }
+
+  </style>
+</head>
+<body>
+  <div id="dashboard" class="container">
+    <h1>Teacher Dashboard — Select a Grade</h1>
+    <div class="grade-buttons">
+      <button class="btn" onclick="openGrade(6)">Grade 6</button>
+      <button class="btn" onclick="openGrade(7)">Grade 7</button>
+      <button class="btn" onclick="openGrade(8)">Grade 8</button>
+      <button class="btn" onclick="openGrade(9)">Grade 9</button>
+    </div>
+    <button class="logout" onclick="logout()">Logout</button>
+  </div>
+
+  <div id="gradeView" class="container hidden">
+    <h1 id="gradeTitle"></h1>
+    <div id="lessonContainer" class="lesson-list"></div>
+    <button class="back-btn" onclick="goBackToDashboard()">⬅ Back to Dashboard</button>
+  </div>
+
+  <!-- PDF Modal -->
+  <div id="pdfModal" class="pdf-modal" onclick="closeModalOnBackdrop(event)">
+    <div class="pdf-card" role="dialog" aria-modal="true" aria-labelledby="pdfTitle">
+      <div class="pdf-header">
+        <div class="title" id="pdfTitle">PDF Viewer</div>
+        <div class="pdf-actions">
+          <a id="openNewTab" class="small-btn" target="_blank" rel="noopener">Open in new tab</a>
+          <a id="downloadPdf" class="small-btn" download>Download</a>
+          <button class="small-btn" onclick="closePdfModal()">Close ✕</button>
+        </div>
+      </div>
+      <iframe id="pdfFrame" class="pdf-iframe" src=""></iframe>
+    </div>
+  </div>
+
+  <script>
+    // lessons data (same as before)
+    const lessons = {
+      6: [
+        "g6lesson 1",
+        "Use the Computer Laboratory Safely",
+        "Operating System and File Management",
+        "Using Mouse and Keyboard",
+        "Algorithm & Flow Charts",
+        "Internet for Information and Communication"
+      ],
+      7: [
+        "Central Processing Unit",
+        "Operating System",
+        "Security of Computer System",
+        "Word Processing",
+        "Programme Development",
+        "Presentation Software",
+        "Using Internet for Information"
+      ],
+      8: [
+        "Number Systems",
+        "Configuring a Computer",
+        "Word Processing",
+        "Programming",
+        "Physical Computing",
+        "Internet"
+      ],
+      9: [
+        "Computer Specifications",
+        "Electronic Spreadsheets",
+        "Programming",
+        "Microcontrollers",
+        "Computer Networks",
+        "ICT and Society"
+      ]
+    };
+
+    const dashboard = document.getElementById('dashboard');
+    const gradeView = document.getElementById('gradeView');
+    const gradeTitle = document.getElementById('gradeTitle');
+    const lessonContainer = document.getElementById('lessonContainer');
+
+    function openGrade(grade) {
+      dashboard.classList.add('hidden');
+      gradeView.classList.remove('hidden');
+      gradeTitle.textContent = `Grade ${grade} — Lessons`;
+      renderLessons(grade);
+    }
+
+    function renderLessons(grade) {
+      lessonContainer.innerHTML = '';
+      const arr = lessons[grade] || [];
+      if (!Array.isArray(arr) || arr.length === 0) {
+        const no = document.createElement('div');
+        no.className = 'lesson-item';
+        no.textContent = 'No lessons found for this grade.';
+        lessonContainer.appendChild(no);
+        return;
+      }
+
+      arr.forEach((lesson, i) => {
+        const wrap = document.createElement('div');
+        wrap.className = 'lesson-item';
+
+        const title = document.createElement('div');
+        title.className = 'lesson-title';
+        title.textContent = `Lesson ${i+1}: ${lesson}`;
+
+        const openBtn = document.createElement('button');
+        openBtn.className = 'small-btn';
+        openBtn.textContent = 'Open PDF';
+        openBtn.onclick = () => openPDF(grade, i+1);
+
+        const openTabBtn = document.createElement('button');
+        openTabBtn.className = 'small-btn';
+        openTabBtn.textContent = 'Open in new tab';
+        openTabBtn.onclick = () => {
+          const file = `grade${grade}_lesson${i+1}.pdf`;
+          const win = window.open(file, '_blank');
+          if (!win) alert('Popup blocked. Allow popups or open the PDF file directly from the server folder.');
+        };
+
+        wrap.appendChild(title);
+        // buttons container
+        const actions = document.createElement('div');
+        actions.style.display = 'flex';
+        actions.style.gap = '8px';
+        actions.appendChild(openBtn);
+        actions.appendChild(openTabBtn);
+        wrap.appendChild(actions);
+
+        lessonContainer.appendChild(wrap);
+      });
+    }
+
+    function goBackToDashboard() {
+      gradeView.classList.add('hidden');
+      dashboard.classList.remove('hidden');
+    }
+
+    function logout() {
+      window.location.href = 'login.html';
+    }
+
+    /* ---------- PDF modal logic ---------- */
+    const pdfModal = document.getElementById('pdfModal');
+    const pdfFrame = document.getElementById('pdfFrame');
+    const pdfTitle = document.getElementById('pdfTitle');
+    const openNewTab = document.getElementById('openNewTab');
+    const downloadPdf = document.getElementById('downloadPdf');
+
+    function openPDF(grade, lessonNumber) {
+      const file = `grade${grade}_lesson${lessonNumber}.pdf`;
+      // Set iframe src
+      pdfFrame.src = file;
+      // Update header / links
+      pdfTitle.textContent = `Grade ${grade} — Lesson ${lessonNumber}`;
+      openNewTab.href = file;
+      downloadPdf.href = file;
+      downloadPdf.setAttribute('download', file);
+
+      // Show modal
+      pdfModal.classList.add('open');
+
+      // if iframe fails to load (e.g., missing file), we still let user open in new tab
+      // Note: can't reliably detect cross-browser load errors for PDFs via iframe.
+      console.info('Attempting to open PDF:', file);
+    }
+
+    function closePdfModal() {
+      pdfModal.classList.remove('open');
+      // clear iframe src to stop loading
+      pdfFrame.src = '';
+    }
+
+    function closeModalOnBackdrop(e) {
+      // close only when clicking backdrop, not card content
+      if (e.target === pdfModal) closePdfModal();
+    }
+
+    // Accessibility: close on ESC
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && pdfModal.classList.contains('open')) closePdfModal();
+    });
+
+    // Helpful console message
+    console.info('Teacher portal loaded. Ensure PDFs named grade{G}_lesson{N}.pdf are in the same folder.');
+  </script>
+</body>
+</html>

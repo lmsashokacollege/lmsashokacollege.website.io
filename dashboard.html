@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NextGen ICT — Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body style="margin:0; font-family:'Inter',sans-serif; background:#f5f7ff; color:#222;">
+    
+  <!-- Header -->
+  <header style="background:#1a237e; color:white; display:flex; justify-content:space-between; align-items:center; padding:9px 60px; box-shadow:0 2px 10px rgba(0,0,0,0.1); position:sticky; top:0; z-index:100;">
+    <div style="font-size:1.6rem; font-weight:700; letter-spacing:0.5px;">NextGen ICT</div>
+    <nav>
+      <a href="index.html" style="margin:0 15px; color:#fff; text-decoration:none; font-weight:600;">Home</a>
+    </nav>
+  </header>
+
+  <!-- Welcome Section -->
+  <section style="padding:20px 20px; text-align:center; background:linear-gradient(135deg,#3f51b5,#5c6bc0); color:white; position:relative;">
+    <h1 style="font-size:2.5rem; margin-bottom:20px; text-shadow:0 4px 10px rgba(0,0,0,0.3);">Welcome to Your Dashboard</h1>
+    <p style="font-size:1.2rem; max-width:700px; margin:auto; opacity:0.9;">
+      Access your lessons, activities, textbooks and past papers in one place. Keep learning and exploring ICT!
+    </p>
+
+    <div style="position:absolute; bottom:-50px; width:100%; height:150px; background:radial-gradient(circle at center, rgba(255,255,255,0.2) 0%, transparent 70%); filter:blur(80px);"></div>
+  </section>
+
+  <!-- Dashboard Cards Section -->
+  <section style="
+    padding:65px 40px;
+    max-width:1200px;
+    margin:auto;
+    background-image:url('asoka1.jpg');
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+    border-radius:18px;
+  ">
+
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:35px;">
+
+      <!-- Lessons Card -->
+      <div style="background:rgba(255,255,255,0.85); padding:35px; border-radius:20px; box-shadow:0 10px 30px rgba(63,81,181,0.15); transition:0.3s; cursor:pointer;" 
+           onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 12px 35px rgba(63,81,181,0.25)';" 
+           onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 30px rgba(63,81,181,0.15)';">
+        <h3 style="font-size:1.4rem; color:#3f51b5;">📘 Lessons</h3>
+        <p style="color:#555; margin-top:10px;">View and study your organized ICT lessons by grade and topic.</p>
+        <a href="login.html" style="margin-top:15px; display:inline-block; color:#8737d1; font-weight:600; text-decoration:none;">Go to Lessons →</a>
+      </div>
+
+      <!-- Activities Card -->
+      <div style="background:rgba(255,255,255,0.85); padding:35px; border-radius:20px; box-shadow:0 10px 30px rgba(63,81,181,0.15); transition:0.3s; cursor:pointer;" 
+           onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 12px 35px rgba(63,81,181,0.25)';" 
+           onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 30px rgba(63,81,181,0.15)';">
+        <h3 style="font-size:1.4rem; color:#3f51b5;">🧩 Activities</h3>
+        <p style="color:#555; margin-top:10px;">Interactive quizzes and tasks to strengthen your ICT knowledge.</p>
+        <a href="ActivityPage.html" style="margin-top:15px; display:inline-block; color:#8737d1; font-weight:600; text-decoration:none;">Start Activities →</a>
+      </div>
+
+      <!-- Text Books & Work Books -->
+      <div style="background:rgba(255,255,255,0.85); padding:35px; border-radius:20px; box-shadow:0 10px 30px rgba(63,81,181,0.15); transition:0.3s; cursor:pointer;" 
+           onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 12px 35px rgba(63,81,181,0.25)';" 
+           onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 30px rgba(63,81,181,0.15)';">
+        <h3 style="font-size:1.4rem; color:#3f51b5;">📊 Text Books & Work Books</h3>
+        <p style="color:#555; margin-top:10px;">Open textbooks and workbooks for each grade — organized and easy to access.</p>
+        <a href="textbook.html" style="margin-top:15px; display:inline-block; color:#8737d1; font-weight:600; text-decoration:none;">Open Books →</a>
+      </div>
+
+
+      <!-- replace the Past Papers card (in dashboard.html) with this -->
+      <div style="background:rgba(255,255,255,0.85); padding:35px; border-radius:20px; box-shadow:0 10px 30px rgba(63,81,181,0.15); transition:0.3s; cursor:pointer;" 
+           onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 12px 35px rgba(63,81,181,0.25)';" 
+           onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 30px rgba(63,81,181,0.15)';">
+        <h3 style="font-size:1.4rem; color:#3f51b5;">📄 Past Papers</h3>
+        <p style="color:#555; margin-top:10px;">Practice previous exam papers and boost your confidence. Filter by grade and subject.</p>
+        <a href="Passpaper.html" style="margin-top:15px; display:inline-block; color:#8737d1; font-weight:600; text-decoration:none;">View Past Papers →</a>
+    </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer style="background:#1a237e; color:white; text-align:center; padding:20px; font-size:0.9rem;">
+    © 2025 NextGen ICT | Designed by <span style="font-weight:600;">CINEC Trainee Teachers</span>
+  </footer>
+
+</body>
+</html>

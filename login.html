@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>NextGen ICT — Grades 6–9 Portal (Teacher tools removed)</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --accent:#00c6ff;
+  --accent-dark:#0072ff;
+  --glass:rgba(15,20,28,0.56);
+  --glass-strong:rgba(15,20,28,0.72);
+  --text-light:#fff;
+  --danger:#ff5757;
+  --muted:rgba(255,255,255,0.65);
+  --logo-size:120px;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  font-family:'Poppins',sans-serif;
+  margin:0;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:url('Lms1.jpg')center/cover no-repeat;
+  padding:28px;
+  color:var(--text-light);
+  position:relative;
+  overflow:auto;
+}
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:inherit;
+  filter:blur(12px) brightness(0.45);
+  z-index:0;
+  transform:scale(1.02);
+}
+
+/* container */
+.container{
+  position:relative;
+  z-index:1;
+  width:100%;
+  max-width:1100px;
+  background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  padding:22px;
+  border-radius:14px;
+  box-shadow:0 12px 50px rgba(0,0,0,0.7);
+  backdrop-filter:blur(6px) saturate(120%);
+  border:1px solid rgba(255,255,255,0.04);
+}
+
+/* Centered large logo + title */
+.center-header {
+  text-align:center;
+  margin-bottom:12px;
+}
+.center-header .logo {
+  width:var(--logo-size);
+  height:var(--logo-size);
+  object-fit:contain;
+  display:inline-block;
+  border-radius:16px;
+  background:rgba(255,255,255,0.02);
+  padding:8px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.45);
+  margin-bottom:12px;
+}
+.header-title {
+  font-size:24px;
+  font-weight:700;
+  margin:0;
+  display:block;
+  color:var(--text-light);
+}
+.header-title .glow {
+  padding:6px 14px;
+  border-radius:999px;
+  background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  box-shadow:0 8px 30px rgba(0,198,255,0.06), inset 0 -6px 12px rgba(0,0,0,0.15);
+}
+.header-underline {
+  height:6px;
+  width:140px;
+  margin:10px auto 0;
+  border-radius:999px;
+  background:linear-gradient(90deg,var(--accent),var(--accent-dark));
+  filter:blur(10px);
+  opacity:0.7;
+}
+
+/* panel */
+.panel{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:12px;flex-wrap:wrap}
+h1{font-size:20px;margin:0}
+
+/* login card */
+.login-box{
+  width:100%;
+  max-width:480px;
+  display:flex;
+  justify-content:center;
+  margin:8px auto 18px auto;
+}
+.login-card {
+  width:100%;
+  background:rgba(255,255,255,0.04);
+  border-radius:16px;
+  padding:22px;
+  border:1px solid rgba(255,255,255,0.08);
+  box-shadow:0 12px 35px rgba(0,0,0,0.45);
+  backdrop-filter:blur(12px) saturate(160%);
+  position:relative;
+  overflow:hidden;
+}
+.login-card .glow-border {
+  position:absolute; inset:0; padding:2px;
+  background:linear-gradient(135deg,#00c6ff,#0072ff,#00f8ff);
+  border-radius:18px;
+  filter:blur(24px);
+  opacity:0.45; pointer-events:none;
+}
+.login-card h2{margin:0 0 14px 0; text-align:center; font-size:18px}
+.form-input{
+  width:100%;
+  padding:10px 12px;
+  margin-top:8px;
+  border-radius:10px;
+  border:none;
+  background:rgba(255,255,255,0.08);
+  color:white;
+  outline:none;
+  font-size:15px;
+  transition:.25s;
+}
+/* ensure select and its options are readable */
+.form-input::placeholder{ color: rgba(255,255,255,0.62); }
+.form-input:focus{
+  background:rgba(255,255,255,0.18);
+  box-shadow:0 0 12px rgba(0,198,255,0.18);
+}
+/* Force select to use native appearance and readable options */
+select.form-input {
+  -webkit-appearance: menulist;
+  appearance: menulist;
+  color: #fff; /* shows selected text in white */
+  background: rgba(255,255,255,0.06);
+}
+/* Option styling (Note: option styling support varies by browser) */
+select.form-input option {
+  color: #000;
+  background: #fff;
+}
+
+/* teacher header inside teacher panel */
+.teacher-header{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  justify-content:space-between;
+  padding:10px;
+  border-radius:10px;
+  background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border:1px solid rgba(255,255,255,0.03);
+  margin-bottom:12px;
+}
+.teacher-header .left { display:flex; align-items:center; gap:12px; }
+.teacher-header .t-logo { width:56px; height:56px; object-fit:contain; border-radius:8px; background:rgba(255,255,255,0.02); padding:6px; }
+.teacher-header .t-title { font-weight:700; color:var(--text-light); }
+.teacher-header .right { display:flex; gap:8px; align-items:center; }
+
+/* logout button style override */
+.teacher-logout { background:var(--danger); color:#fff; border:none; padding:8px 12px; border-radius:8px; cursor:pointer; }
+
+/* other styles remain same... */
+button.primary {
+  margin-top:14px;
+  width:100%;
+  background:var(--accent);
+  color:#000;
+  padding:10px;
+  border-radius:10px;
+  font-weight:700;
+  cursor:pointer;
+  transition:all .22s;
+  border:none;
+}
+button.primary:hover{
+  background:var(--accent-dark);
+  color:#fff;
+  box-shadow:0 8px 26px rgba(0,114,255,0.18);
+}
+
+/* small helpers */
+.btn-ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,0.12)}
+.logout-btn{background:var(--danger);color:#fff;padding:8px 12px}
+.hidden{display:none!important}
+.card{background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));padding:12px;border-radius:12px;min-height:80px;display:flex;flex-direction:column;gap:8px;justify-content:space-between;transition:transform .18s, background .18s;border:1px solid rgba(255,255,255,0.06);box-shadow:0 6px 18px rgba(0,0,0,0.45);color:var(--text-light)}
+.card:hover{transform:translateY(-6px);background:linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.015));}
+.btn{display:inline-block;padding:6px 10px;border-radius:8px;text-decoration:none;font-weight:600}
+.small{font-size:13px;padding:6px 8px;border-radius:8px}
+.small-ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,0.12)}
+.upload-section{margin-top:12px;background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.03)}
+.all-grades { margin-top:10px; display:block; }
+.ag-header { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:10px; }
+.ag-search { display:flex; gap:8px; align-items:center; }
+.ag-search input { width:260px; padding:8px 10px; border-radius:8px; border:none; background:rgba(255,255,255,0.03); color:var(--text-light) }
+.grade-accordion { background:var(--glass); border-radius:10px; margin-bottom:10px; overflow:hidden; border:1px solid rgba(255,255,255,0.04); }
+.grade-accordion .g-head { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:10px 12px; cursor:pointer; }
+.g-head .title { font-weight:700; }
+.g-head .meta { color:var(--muted); font-size:13px; }
+.g-list { padding:12px; border-top:1px solid rgba(255,255,255,0.03); display:block; }
+.g-item { display:flex; align-items:center; gap:10px; padding:10px; border-radius:6px; background:rgba(255,255,255,0.01); margin-bottom:8px; border:1px solid rgba(255,255,255,0.02); }
+.g-item strong { display:block; color:var(--text-light); font-weight:700; }
+.g-item small { display:block; color:var(--muted); font-size:13px; }
+.drag-handle{cursor:grab;padding:6px 8px;border-radius:6px;background:rgba(255,255,255,0.03);margin-right:8px}
+.grade-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:12px; margin-bottom:6px;}
+.fade-in{animation:fadeIn .35s ease forwards}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.toast{position:fixed;right:20px;bottom:20px;background:#0b1220;color:#dfffdc;padding:12px 14px;border-radius:10px;box-shadow:0 6px 20px rgba(0,0,0,.6);z-index:60}
+.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:50}
+.modal{background:#0f1720;padding:16px;border-radius:12px;width:420px;max-width:95%}
+@media(max-width:760px){
+  :root{ --logo-size:88px; }
+  .container{ padding:12px; }
+  .login-card{ padding:18px; }
+  .header-title{ font-size:18px }
+  .ag-search input { width:140px; }
+}
+</style>
+</head>
+<body>
+<div class="container fade-in">
+
+  <!-- Centered large logo + title -->
+  <div class="center-header">
+    <img src="asokalogo.jpg" alt="Asoka Logo" class="logo" />
+    <div class="header-title"><span class="glow">NextGen ICT Portal</span></div>
+    <div class="header-underline" aria-hidden="true"></div>
+  </div>
+
+  <div class="panel" style="align-items:flex-start;">
+    <div class="left" style="flex:1; min-width:260px;"></div>
+
+    <div class="right controls-row" style="display:flex; gap:8px; align-items:center;">
+      <div id="welcomeText" style="font-weight:600;"></div>
+      <button id="backToLoginBtn" class="btn-ghost hidden">⬅ Back</button>
+      <button id="logoutBtn" class="logout-btn hidden">Logout</button>
+    </div>
+  </div>
+
+  <!-- LOGIN -->
+  <div id="loginView" class="login-box" aria-live="polite">
+    <div class="login-card" role="region" aria-label="Login form">
+      <div class="glow-border" aria-hidden="true"></div>
+
+      <h2>🔐 Student / Teacher Login</h2>
+
+      <label style="font-size:14px; display:block; margin-top:6px;">Select Role</label>
+      <select id="role" required class="form-input" aria-label="Select role">
+        <option value="" disabled selected hidden>Choose your role</option>
+        <option value="teacher">Teacher</option>
+        <option value="grade6">Grade 6 Student</option>
+        <option value="grade7">Grade 7 Student</option>
+        <option value="grade8">Grade 8 Student</option>
+        <option value="grade9">Grade 9 Student</option>
+      </select>
+
+      <form id="loginForm" style="margin-top:8px;">
+        <label style="font-size:14px; display:block; margin-top:8px;">Username</label>
+        <input type="text" id="user" placeholder="Enter Username (optional)" class="form-input" autocomplete="username">
+
+        <label style="font-size:14px; display:block; margin-top:12px;">Password</label>
+        <div style="display:flex; gap:8px; align-items:center;">
+          <input type="password" id="pass" placeholder="Enter Password" required class="form-input" style="flex:1" autocomplete="current-password">
+        </div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
+          <label style="font-size:13px; color:var(--muted); display:flex; gap:8px; align-items:center; cursor:pointer;">
+            <input type="checkbox" id="showPass" style="transform:scale(1.05); margin-right:4px;">
+            Show Password
+          </label>
+          <button type="button" id="forgotBtn" class="small small-ghost" style="background:transparent; border:1px solid rgba(255,255,255,0.06);">Forgot?</button>
+        </div>
+
+        <button type="submit" class="primary">▶ Login</button>
+      </form>
+      <p id="msg" style="color:#ffdddd;font-size:14px;margin:12px 0 0;text-align:center;"></p>
+    </div>
+  </div>
+
+  <!-- STUDENT / GRADE VIEW -->
+  <div id="gradesView" class="hidden" aria-live="polite">
+    <div class="grade-header">
+      <h2 id="gradeTitle">🎓 Grade X Lessons</h2>
+      <div>
+        <button id="showAllGradesBtn" class="small hidden">Show All Grades</button>
+      </div>
+    </div>
+
+    <div id="lessonsContainer"></div>
+
+    <div id="studentUpload" class="upload-section hidden">
+      <h3 style="margin:0 0 8px 0">📤 Upload Lesson File (Students)</h3>
+      <input type="file" id="fileUploadStudent">
+      <div style="margin-top:8px">
+        <button onclick="studentUploadFile()" class="small">Upload</button>
+        <span id="uploadMsgStudent" style="margin-left:8px;color:#aaffaa;"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- TEACHER VIEW -->
+<div id="teacherView" class="hidden" aria-live="polite">
+  <!-- Header -->
+  <div class="teacher-header" role="banner">
+    <div class="left">
+      <img src="asokalogo.jpg" alt="Asoka Logo" class="t-logo">
+      <div>
+        <div class="t-title">NextGen ICT Portal</div>
+        <div class="t-subtitle">Teacher Dashboard</div>
+      </div>
+    </div>
+    <div class="right">
+      <button class="teacher-logout" id="teacherLogoutInline">Logout</button>
+    </div>
+  </div>
+
+  <!-- All Grades Section -->
+  <div class="all-grades">
+    <div class="ag-header">
+      <div>
+        <h3>📚 All Grades</h3>
+        <div class="ag-info">Manage lessons by grade — expand a grade to edit, drag to reorder.</div>
+      </div>
+
+      <div class="ag-search">
+        <input id="gradeSearch" placeholder="Search lessons by title..." aria-label="Search lessons">
+        <button id="clearSearch" class="small small-ghost">Clear</button>
+      </div>
+    </div>
+
+    <div id="allGradesContainer"></div>
+  </div>
+</div>
+
+<!-- TEACHER VIEW -->
+<div id="teacherView" class="hidden" aria-live="polite">
+  <!-- Header -->
+  <div class="teacher-header" role="banner">
+    <div class="left">
+      <!-- Logo only -->
+      <img src="asokalogo.jpg" alt="Asoka Logo" class="t-logo">
+      <div>
+        <div class="t-title">NextGen ICT Portal</div>
+        <div class="t-subtitle">Teacher Dashboard</div>
+      </div>
+    </div>
+    <div class="right">
+      <button class="teacher-logout" id="teacherLogoutInline">Logout</button>
+    </div>
+  </div>
+
+  <!-- All Grades Section -->
+  <div class="all-grades">
+    <div class="ag-header">
+      <div>
+        <h3>📚 All Grades</h3>
+        <div class="ag-info">Manage lessons by grade — expand a grade to edit, drag to reorder.</div>
+      </div>
+
+      <div class="ag-search">
+        <input id="gradeSearch" placeholder="Search lessons by title..." aria-label="Search lessons">
+        <button id="clearSearch" class="small small-ghost">Clear</button>
+      </div>
+    </div>
+
+    <!-- Grade 6 Lessons Container -->
+    <div id="allGradesContainer"></div>
+  </div>
+</div>
+
+<style>
+.teacher-header { display:flex; justify-content:space-between; align-items:center; padding:620px; background:#f0f0f0; }
+.t-logo { height:100px; margin-right:10px; }
+.t-title { font-weight:600; font-size:18px; }
+.t-subtitle { font-size:13px; color:#666; }
+.all-grades { padding:15px; }
+.ag-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+.ag-info { font-size:13px; color:#666; }
+.ag-search input { padding:5px; }
+.ag-search button { margin-left:5px; }
+</style>
+
+
+
+<!-- Toast -->
+<div id="toast" class="hidden toast" role="status" aria-live="polite"></div>
+
+<script>
+/* -------------------------
+   Data + persistence
+   ------------------------- */
+const defaultLessons = {
+  6: [{title:"Importance of Computers",page:"Grade6_Lesson1.html"},{title:"Use the Computer Laboratory Safely",page:"Grade6_Lesson2.html"},{title:"Operating System and File Management",page:"Grade6_Lesson3.html"},{title:"Using Mouse and Keyboard",page:"Grade6_Lesson4.html"},{title:"Algorithm & Flow Charts",page:"Grade6_Lesson5.html"},{title:"Internet for Information and Communication",page:"Grade6_Lesson6.html"}],
+  7: [{title:"Central Processing Unit",page:"Grade7_lesson1.html"},{title:"Operating System",page:"Grade7_lesson2.html"},{title:"Security of Computer System",page:"Grade7_lesson3.html"},{title:"Word Processing",page:"Grade7_lesson4.html"},{title:"Programme Development",page:"Grade7_lesson5.html"},{title:"Presentation Software",page:"Grade7_lesson6.html"},{title:"Using Internet for Information",page:"Grade7_lesson7.html"}],
+  8: [{title:"Number Systems",page:"Grade8_lesson1.html"},{title:"Configuring a Computer",page:"Grade8_lesson2.html"},{title:"Word Processing",page:"Grade8_lesson3.html"},{title:"Programming",page:"Grade8_lesson4.html"},{title:"Physical Computing",page:"Grade8_lesson5.html"},{title:"Internet",page:"Grade8_lesson6.html"}],
+  9: [{title:"Computer Specifications",page:"Grade9_lesson1.html"},{title:"Electronic Spreadsheets",page:"Grade9_lesson2.html"},{title:"Programming",page:"Grade9_lesson3.html"},{title:"Microcontrollers",page:"Grade9_lesson4.html"},{title:"Computer Networks",page:"Grade9_lesson5.html"},{title:"ICT and Society",page:"Grade9_lesson6.html"}]
+};
+const USERS = {grade6:{password:"6students",grade:6},grade7:{password:"7students",grade:7},grade8:{password:"8students",grade:8},grade9:{password:"9students",grade:9},teacher:{password:"teach2025",role:"teacher"}};
+
+function loadLessons(){
+  try{
+    const raw = localStorage.getItem('ng_lessons_v2');
+    if(!raw) return JSON.parse(JSON.stringify(defaultLessons));
+    const parsed = JSON.parse(raw);
+    for(const g of [6,7,8,9]) if(!parsed[g]) parsed[g]=defaultLessons[g];
+    return parsed;
+  }catch(e){console.warn('load failed',e); return JSON.parse(JSON.stringify(defaultLessons));}
+}
+function saveLessons(){ try{ localStorage.setItem('ng_lessons_v2', JSON.stringify(lessons)); }catch(e){console.warn('save failed',e);} }
+
+let lessons = loadLessons();
+
+/* -------------------------
+   UI refs
+   ------------------------- */
+const loginView = document.getElementById('loginView');
+const gradesView = document.getElementById('gradesView');
+const teacherView = document.getElementById('teacherView');
+const loginForm = document.getElementById('loginForm');
+const msg = document.getElementById('msg');
+const lessonsContainer = document.getElementById('lessonsContainer');
+const gradeTitle = document.getElementById('gradeTitle');
+const logoutBtn = document.getElementById('logoutBtn');
+const backToLoginBtn = document.getElementById('backToLoginBtn');
+const welcomeText = document.getElementById('welcomeText');
+const allGradesContainer = document.getElementById('allGradesContainer');
+const showAllGradesBtn = document.getElementById('showAllGradesBtn');
+const studentUpload = document.getElementById('studentUpload');
+
+const editModal = document.getElementById('editModal');
+const editTitle = document.getElementById('editTitle');
+const editPage = document.getElementById('editPage');
+const saveEditBtn = document.getElementById('saveEditBtn');
+const cancelEditBtn = document.getElementById('cancelEditBtn');
+const modalBackdrop = document.getElementById('modalBackdrop');
+
+const toast = document.getElementById('toast');
+
+let currentUser = null;
+let pendingDelete = null;
+
+/* -------------------------
+   Login
+   ------------------------- */
+loginForm.addEventListener('submit', (e)=>{
+  e.preventDefault();
+  const role = document.getElementById('role').value;
+  const username = document.getElementById('user').value.trim();
+  const password = document.getElementById('pass').value;
+  if(!role){ msg.textContent = '⚠️ Please select role'; return; }
+  if(!USERS[role] || password !== USERS[role].password){ msg.textContent='❌ Invalid username or password!'; return; }
+  msg.textContent='';
+  const user = USERS[role];
+  if(user.role === 'teacher'){ currentUser = {role:'teacher', username: username || 'Teacher'}; showTeacherView(); return; }
+  currentUser = {role:'student', grade: user.grade, username: username || `Grade ${user.grade} Student`};
+  showGradesView(currentUser.grade);
+});
+
+/* toggle show password */
+document.getElementById('showPass').addEventListener('change', (e)=>{
+  const p = document.getElementById('pass');
+  p.type = e.target.checked ? 'text' : 'password';
+});
+
+/* teacher inline logout button (in teacher header) */
+document.getElementById('teacherLogoutInline').addEventListener('click', resetToLogin);
+
+/* -------------------------
+   Student view
+   ------------------------- */
+function showGradesView(grade){
+  document.body.className = `grade${grade}`;
+  loginView.classList.add('hidden'); teacherView.classList.add('hidden'); gradesView.classList.remove('hidden');
+  // show top-right logout so user can always log out from header
+  logoutBtn.classList.remove('hidden'); backToLoginBtn.classList.remove('hidden');
+  gradeTitle.textContent = `🎓 Grade ${grade} Lessons`; welcomeText.textContent = `Signed in: ${currentUser.username || 'Student'}`;
+  renderLessons([grade]);
+  studentUpload.classList.add('hidden');
+  showAllGradesBtn.classList.add('hidden');
+}
+function renderLessons(gradeArray){
+  lessonsContainer.innerHTML = '';
+  gradeArray.forEach(g=>{
+    const header = document.createElement('h3'); header.style.margin='12px 0 6px 0'; header.textContent = `📘 Grade ${g}`; lessonsContainer.appendChild(header);
+    const grid = document.createElement('div'); grid.className='grade-grid';
+    (lessons[g]||[]).forEach((lesson, idx)=>{
+      const card = document.createElement('div'); card.className='card fade-in';
+      card.innerHTML = `<div><h3 style="margin:0">Lesson ${idx+1}</h3><p style="margin-top:6px">${escapeHtml(lesson.title)}</p></div>
+                        <div style="display:flex; gap:8px; align-items:center;">
+                          <a class="btn" href="${encodeURI(lesson.page)}" target="_blank" rel="noopener">📖 Open</a>
+                        </div>`;
+      grid.appendChild(card);
+    });
+    lessonsContainer.appendChild(grid);
+  });
+}
+function studentUploadFile(){
+  const file = document.getElementById('fileUploadStudent').files[0];
+  const el = document.getElementById('uploadMsgStudent');
+  if(!file){ el.textContent = '⚠️ Choose a file!'; el.style.color='#ffdddd'; return; }
+  el.textContent = `✅ Uploaded (demo): ${file.name}`; el.style.color='#aaffaa';
+}
+
+/* -------------------------
+   Teacher view (tools removed) + All Grades rendering
+   ------------------------- */
+function showTeacherView(){
+  document.body.className = 'teacher';
+  loginView.classList.add('hidden'); gradesView.classList.add('hidden'); teacherView.classList.remove('hidden');
+  logoutBtn.classList.remove('hidden'); backToLoginBtn.classList.remove('hidden');
+  // set the teacher header area values
+  welcomeText.textContent = `Signed in: ${currentUser.username || 'Teacher'}`;
+  refreshTeacherView();
+}
+
+/* render all grades as accordion + search support */
+function refreshTeacherView(filter = '') {
+  allGradesContainer.innerHTML = '';
+
+  for (const g of [6,7,8,9]) {
+    const gradeLessons = (lessons[g] || []).map((l, idx) => ({...l, idx}));
+    const filtered = filter.trim() ? gradeLessons.filter(it => it.title.toLowerCase().includes(filter.toLowerCase())) : gradeLessons;
+
+    const acc = document.createElement('div');
+    acc.className = 'grade-accordion fade-in';
+    const head = document.createElement('div');
+    head.className = 'g-head';
+    head.innerHTML = `<div>
+                        <div class="title">Grade ${g}</div>
+                        <div class="meta">${filtered.length} lesson(s)</div>
+                      </div>
+                      <div style="display:flex; gap:8px; align-items:center;">
+                        <button class="small small-ghost toggle-grade" data-grade="${g}">Toggle</button>
+                        <button class="small small-ghost" onclick="expandGrade(${g})">Expand</button>
+                        <button class="small small-ghost" onclick="collapseGrade(${g})">Collapse</button>
+                      </div>`;
+    acc.appendChild(head);
+
+    const list = document.createElement('div');
+    list.className = 'g-list';
+    list.id = `g${g}-list`;
+    if(filtered.length === 0){
+      list.innerHTML = `<div style="color:var(--muted); padding:8px 0">No lessons match the search.</div>`;
+    } else {
+      filtered.forEach(item => {
+        const idx = item.idx;
+        const row = document.createElement('div');
+        row.className = 'g-item';
+        row.draggable = true;
+        row.dataset.grade = g;
+        row.dataset.index = idx;
+        row.innerHTML = `<span class="drag-handle" aria-hidden="true">☰</span>
+          <div style="flex:1">
+            <strong>${idx+1}. ${escapeHtml(item.title)}</strong>
+            <small>${escapeHtml(item.page)}</small>
+          </div>
+          <div style="display:flex; gap:8px; align-items:center">
+            <a class="btn small" href="${encodeURI(item.page)}" target="_blank">Open</a>
+            <button class="small small-ghost" onclick="openEditModal(${g}, ${idx})">Edit</button>
+            <button class="small small-ghost" onclick="confirmRemove(${g}, ${idx})">Delete</button>
+          </div>`;
+        addDragHandlers(row);
+        list.appendChild(row);
+      });
+    }
+
+    acc.appendChild(list);
+    allGradesContainer.appendChild(acc);
+
+    head.querySelector('.toggle-grade').addEventListener('click', () => {
+      list.classList.toggle('hidden');
+    });
+  }
+}
+
+/* helpers to expand/collapse */
+function expandGrade(g) { const el = document.getElementById(`g${g}-list`); if (el) el.classList.remove('hidden'); }
+function collapseGrade(g) { const el = document.getElementById(`g${g}-list`); if (el) el.classList.add('hidden'); }
+
+/* drag & drop */
+let dragSrc = null;
+function addDragHandlers(el){
+  el.addEventListener('dragstart', (e)=>{ dragSrc = el; e.dataTransfer.effectAllowed = 'move'; el.style.opacity = '0.4'; });
+  el.addEventListener('dragend', ()=>{ el.style.opacity='1'; dragSrc=null; });
+  el.addEventListener('dragover', (e)=>{ e.preventDefault(); e.dataTransfer.dropEffect='move'; el.classList.add('drag-over'); });
+  el.addEventListener('dragleave', ()=>{ el.classList.remove('drag-over'); });
+  el.addEventListener('drop', (e)=>{
+    e.preventDefault(); el.classList.remove('drag-over');
+    if(!dragSrc || dragSrc === el) return;
+    const srcGrade = Number(dragSrc.dataset.grade), srcIdx = Number(dragSrc.dataset.index);
+    const tgtGrade = Number(el.dataset.grade), tgtIdx = Number(el.dataset.index);
+    if(srcGrade !== tgtGrade){
+      const [moved] = lessons[srcGrade].splice(srcIdx,1);
+      lessons[tgtGrade].splice(tgtIdx+1,0,moved);
+    } else {
+      const arr = lessons[srcGrade];
+      const [moved] = arr.splice(srcIdx,1);
+      arr.splice(tgtIdx,0,moved);
+    }
+    saveLessons(); refreshTeacherView(document.getElementById('gradeSearch').value || '');
+  });
+}
+
+/* Add / Edit / Delete */
+function openEditModal(grade, index){
+  editModal.classList.remove('hidden');
+  editTitle.value = lessons[grade][index].title;
+  editPage.value = lessons[grade][index].page;
+  editModal.dataset.grade = grade; editModal.dataset.index = index;
+}
+
+document.getElementById('cancelEditBtn').addEventListener('click', closeEditModal);
+modalBackdrop.addEventListener('click', (e)=>{ if(e.target===modalBackdrop) closeEditModal(); });
+
+document.getElementById('saveEditBtn').addEventListener('click', ()=>{
+  const g = Number(editModal.dataset.grade); const idx = Number(editModal.dataset.index);
+  const t = editTitle.value.trim(); const p = editPage.value.trim();
+  if(!t || !p){ alert('Provide both title and page'); return; }
+  lessons[g][idx].title = t; lessons[g][idx].page = p; saveLessons(); closeEditModal(); refreshTeacherView(document.getElementById('gradeSearch').value || '');
+});
+
+function closeEditModal(){ editModal.classList.add('hidden'); delete editModal.dataset.grade; delete editModal.dataset.index; editTitle.value=''; editPage.value=''; }
+
+function confirmRemove(grade, index){
+  if(!confirm(`Delete lesson ${index+1} from Grade ${grade}?`)) return;
+  const removed = lessons[grade].splice(index,1)[0];
+  saveLessons(); refreshTeacherView(document.getElementById('gradeSearch').value || '');
+  showUndoToast(grade, index, removed);
+}
+
+function showUndoToast(grade,index,lesson){
+  clearPendingDelete();
+  pendingDelete = {grade,index,lesson,timeoutId:null};
+  toast.textContent = `Deleted "${lesson.title}". Undo?`;
+  const undoBtn = document.createElement('button'); undoBtn.textContent='Undo'; undoBtn.className='small'; undoBtn.style.marginLeft='10px';
+  undoBtn.addEventListener('click', ()=>{ undoDelete(); });
+  toast.appendChild(undoBtn);
+  toast.classList.remove('hidden');
+  pendingDelete.timeoutId = setTimeout(()=>{ clearPendingDelete(); }, 7000);
+}
+
+function undoDelete(){
+  if(!pendingDelete) return;
+  const {grade,index,lesson} = pendingDelete;
+  if(!lessons[grade]) lessons[grade]=[];
+  lessons[grade].splice(index,0,lesson);
+  saveLessons(); refreshTeacherView(document.getElementById('gradeSearch').value || ''); clearPendingDelete();
+}
+
+function clearPendingDelete(){ if(!pendingDelete) return; if(pendingDelete.timeoutId) clearTimeout(pendingDelete.timeoutId); pendingDelete=null; toast.classList.add('hidden'); toast.innerHTML=''; }
+
+/* Logout / back */
+document.getElementById('logoutBtn').addEventListener('click', resetToLogin);
+document.getElementById('backToLoginBtn').addEventListener('click', resetToLogin);
+function resetToLogin(){
+  currentUser=null; document.body.className=''; loginView.classList.remove('hidden'); gradesView.classList.add('hidden'); teacherView.classList.add('hidden');
+  logoutBtn.classList.add('hidden'); backToLoginBtn.classList.add('hidden'); showAllGradesBtn.classList.add('hidden'); welcomeText.textContent=''; document.getElementById('role').value=''; loginForm.reset(); msg.textContent='';
+}
+
+/* utils */
+function escapeHtml(str){ return String(str).replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+
+/* expose functions used in markup */
+window.openEditModal = openEditModal;
+window.confirmRemove = confirmRemove;
+window.studentUploadFile = studentUploadFile;
+
+/* init */
+document.getElementById('uploadMsgStudent').textContent='';
+lessons = lessons || loadLessons();
+
+/* search box behaviour */
+const gradeSearch = document.getElementById('gradeSearch');
+const clearSearch = document.getElementById('clearSearch');
+if (gradeSearch) {
+  gradeSearch.addEventListener('input', (e) => {
+    refreshTeacherView(e.target.value || '');
+  });
+}
+if (clearSearch) {
+  clearSearch.addEventListener('click', () => {
+    gradeSearch.value = '';
+    refreshTeacherView('');
+  });
+}
+</script>
+</body>
+</html>
